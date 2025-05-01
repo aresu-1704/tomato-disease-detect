@@ -35,11 +35,11 @@ def draw_bounding_boxes(img, labels, class_names, axs, idx):
 rcParams['font.family'] = 'Tahoma'
 rcParams['axes.unicode_minus'] = False
 
-yaml_file = r"C:\Users\anly1\Downloads\Tomato\data.yaml"
+yaml_file = r"C:\Users\anly1\Downloads\data.yaml"
 
 config = load_config(yaml_file)
 
-image_dir = config['train']
+image_dir = config['test']
 label_dir = os.path.join(os.path.dirname(image_dir), 'labels')
 
 class_names = config['names']

@@ -27,15 +27,15 @@ def plot_class_distribution(class_counts):
     class_labels = [class_names[class_id] for class_id in classes]
 
     plt.figure(figsize=(10, 6))
-    plt.bar(class_labels, counts, color='skyblue')
-    plt.xlabel('Class Name')
-    plt.ylabel('Count')
-    plt.title('Class Distribution in YOLO Training Set')
+    plt.bar(class_labels, counts, color='green')
+    plt.xlabel('Tên lớp')
+    plt.ylabel('Số lượng')
+    plt.title('Phân bố nhãn trong tập huấn luyện')
     plt.xticks(rotation=45, ha='right')
     plt.show()
 
 
 # Ví dụ sử dụng
-annotation_folder = r'C:\Users\anly1\Downloads\Tomato\train\labels'
+annotation_folder = r'C:\Users\anly1\Downloads\train\labels'
 class_counts = count_yolo_class_distribution(annotation_folder)
 plot_class_distribution(class_counts)
