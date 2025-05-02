@@ -1,5 +1,8 @@
-from fastapi import APIRouter
 import base64
+import asyncio
+from fastapi import APIRouter
+
+from services.disease_info_service import DiseaseService
 from services.predict_service import PredictService
 from pydantic import BaseModel
 from fastapi.responses import JSONResponse
@@ -35,15 +38,26 @@ predict_service = PredictService(
     }
 )
 
+disease_info_service = DiseaseService()
+
 @router.post("/predict-image")
 async def predict_image(request: PredictRequest):
     try:
         data = request.Image
         try:
             image_bytes = base64.b64decode(data)
-            result = await predict_service.predict(image_bytes)
+            result = await asyncio.to_thread(predict_service.predict, image_bytes)
+            disease_info_list = await disease_info_service.GetDiseaseInfo(result["class_indices"])
+            result_with_disease_info = {
+                "status": result["status"],
+                "image": result["image"],
+                "class_count": result["class_count"],
+                "class_indices": result["class_indices"],
+                "data": disease_info_list
+            }
+
             return JSONResponse(
-                content=result,
+                content=result_with_disease_info,
                 headers={"Content-Type": "application/json; charset=utf-8"}
             )
         except Exception as e:
